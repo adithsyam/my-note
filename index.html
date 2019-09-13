@@ -61,7 +61,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       window.addEventListener('DOMContentLoaded', (event) => {
         var str="";
         fs.readFile('/note', 'utf8', function(err, data) {
-          if (err == null){ 
+          if (err != null){ 
             str = "My notes --> Click here to edit";
           }
           else if (data != null) {
