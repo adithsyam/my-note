@@ -57,6 +57,9 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <h2 class="w3-text-light-grey">Note</h2>
     <hr style="width:200px" class="w3-opacity">
     <script src="https://unpkg.com/filer/dist/filer.min.js"></script>
+    <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+    <script type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
     <script>const fs = new Filer.FileSystem();
       window.addEventListener('DOMContentLoaded', (event) => {
         var str="";
@@ -70,6 +73,22 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
           document.getElementById('note').innerHTML += str;
         });
         var interval = window.setInterval(save, 100);
+        
+        hotkeys.filter = function (event) {
+            var tagName = (event.target || event.srcElement).tagName;
+            return !(tagName.isContentEditable);
+        }
+
+        hotkeys('ctrl+s', function (event, handler) {
+           let file = new File([document.querySelector('#note').innerHTML], "Note.txt", {type: "text/plain;charset=utf-8"});
+            saveAs(file);
+          });
+
+        hotkeys('ctrl+d', function (event, handler) {
+            document.querySelector('#note').innerHTML = "";
+            save();
+          });
+
         function save(){
           fs.writeFile('/note', document.querySelector('#note').innerHTML);
         }
